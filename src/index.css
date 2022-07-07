@@ -1,0 +1,13 @@
+.table {}
+
+.icon {
+    color: lightgray
+}
+
+.icon:hover {
+    color: black;
+}
+
+.bi bi-trash3:hover {
+    font-size: 1em;
+}

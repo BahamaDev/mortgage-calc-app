@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import SavedData from "./components/SavedData";
-import "./App.css";
+
 
 function App() {
-  const [purchasePrice, setPurchasePrice] = useState();
-  const [downPayment, setDownPayment] = useState();
-  const [paymentPeriod, setPaymentPeriod] = useState();
-  const [interestRate, setInterestRate] = useState();
+  const [purchasePrice, setPurchasePrice] = useState(4000000);
+  const [downPayment, setDownPayment] = useState(40000);
+  const [paymentPeriod, setPaymentPeriod] = useState(30);
+  const [interestRate, setInterestRate] = useState(2);
   const [data, setData] = useState({});
   const [saved, setSaved] = useState([]);
 
