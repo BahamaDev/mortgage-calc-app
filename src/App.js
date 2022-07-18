@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import SavedData from "./components/SavedData";
-
+import NavBar from "./components/NavBar";
 
 function App() {
   const [purchasePrice, setPurchasePrice] = useState(4000000);
@@ -55,14 +55,15 @@ function App() {
 
   return (
     <>
+      <NavBar />
       {/* For Input Section */}
       {/* For Input Section */}
-      <div className="container main-container pt-5 pb-5 ">
-        <section className=" row" id="input-section">
+      <div className="container main-container  pt-5 pb-5 ">
+        <section className="row mx-auto" id="input-section">
           {" "}
-          <div className="row ">
+          <div className="row mx-auto border justify-content-center">
             {" "}
-            <div className="col-6  mx-auto  card text-center text-md-start pt-3">
+            <div className="col-2 card text-center text-md-start pt-3">
               {" "}
               <label htmlFor="purchase-price">Purchase Price</label>
               <input
@@ -104,12 +105,37 @@ function App() {
                 Calculate
               </button>
             </div>
+            {/* For Output Section */}
+            {/* For Output Section */}
+            <div className="col-6  card">
+              <div className="row mx-auto text-center mb-2 mt-2">
+                Your Mortgage
+              </div>
+              <div className="row mtg-data border-top text-center ">
+                <div className="col-md-4 border-bottom h5">
+                  Principal: ${data.principal}
+                </div>
+                <div className="col-md-4 col-sm-6 border-bottom h5">
+                  Interest: {data.interest}%{" "}
+                </div>
+                <div className="col-md-4 col-sm-6 border-bottom h5">
+                  Period: {paymentPeriod} yrs{" "}
+                </div>
+              </div>
+              <div className="jumbotron">
+                <p className="h2 text-center">${data.monthly}</p>
+              </div>
+              <button className="btn btn-secondary" onClick={saveQuote}>
+                {" "}
+                Save Quote
+              </button>
+            </div>
           </div>
         </section>
         {/* For Output Section */}
         {/* For Output Section */}
 
-        <section className="row pt-3">
+        {/* <section className="row pt-3">
           <div className="col-8 mx-auto card">
             <div className="row mx-auto text-center mb-2 mt-2">
               Your Mortgage
@@ -133,7 +159,7 @@ function App() {
               Save Quote
             </button>
           </div>
-        </section>
+        </section> */}
       </div>{" "}
       <section className="container">
         <SavedData saved={saved} />
