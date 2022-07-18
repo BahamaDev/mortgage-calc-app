@@ -11,3 +11,25 @@
 .bi bi-trash3:hover {
     font-size: 1em;
 }
+
+.output-section {
+    color: rgb(170, 170, 170);
+
+
+}
+
+#monthly {
+    color: orange;
+}
+
+#side {
+
+    background-color: pink;
+    height: 100vh;
+}
+
+
+.main-row{
+    height: 80vh;
+   
+}
