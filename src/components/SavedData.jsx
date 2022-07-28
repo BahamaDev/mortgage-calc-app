@@ -1,6 +1,6 @@
 import React from "react";
 
-const SavedData = ({ saved }) => {
+const SavedData = ({ saved, deleteEntry }) => {
   console.log(saved);
 
   return (
@@ -18,12 +18,17 @@ const SavedData = ({ saved }) => {
               <th className="text-center" scope="col">
                 Down
               </th>
+
               <th className="text-center" scope="col">
                 Principal
               </th>
               <th className="text-center" scope="col">
+                Interest{" "}
+              </th>
+              <th className="text-center" scope="col">
                 Term{" "}
               </th>
+
               <th className="text-center" scope="col">
                 Payment
               </th>
@@ -41,10 +46,19 @@ const SavedData = ({ saved }) => {
                   <td className="text-center">${item.downPayment}</td>
                   <td className="text-center">${item.principal}</td>
                   <td className="text-center">{item.interestRate}%</td>
+                  <td className="text-center">
+                    {item.period} <sup>yrs</sup>
+                  </td>
+
                   <td className="text-center">${item.monthly}</td>
                   <td className="text-center">
-                    <a href="#">
+                    <a
+                      href="#"
+                      onClick={(e, id) => deleteEntry(e, this)}
+                      value={index}
+                    >
                       <svg
+                        value={index}
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"

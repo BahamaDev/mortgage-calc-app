@@ -4,17 +4,12 @@ import SavedData from "./components/SavedData";
 import NavBar from "./components/NavBar";
 
 function App() {
-  const [purchasePrice, setPurchasePrice] = useState(4000000);
-  const [downPayment, setDownPayment] = useState(40000);
-  const [paymentPeriod, setPaymentPeriod] = useState(30);
-  const [interestRate, setInterestRate] = useState(2);
+  const [purchasePrice, setPurchasePrice] = useState();
+  const [downPayment, setDownPayment] = useState();
+  const [paymentPeriod, setPaymentPeriod] = useState();
+  const [interestRate, setInterestRate] = useState();
   const [data, setData] = useState({});
   const [saved, setSaved] = useState([]);
-
-  const saveQuote = () => {
-    setSaved([...saved, data]);
-  };
-  console.log("saved", saved);
 
   const handlePurchaseChange = (e) => {
     e.preventDefault();
@@ -47,29 +42,49 @@ function App() {
       downPayment,
       interestRate,
       principal: p,
-
+      period: paymentPeriod,
       monthly: finalMonthly.toFixed(2),
     };
     setData(answer);
+  };
+
+  const handleClearAll = () => {
+    setPurchasePrice(0);
+    setDownPayment(0);
+    setPaymentPeriod(0);
+    setInterestRate(0);
+  };
+
+  const saveQuote = () => {
+    setSaved([...saved, data]);
+  };
+  console.log("saved", saved);
+
+  const deleteEntry = (e) => {
+    console.log(e.target.getAttribute("value"));
+    saved.splice([e.target.getAttribute("value")], 1);
+    console.log(saved);
   };
 
   return (
     <>
       <NavBar />
 
-      <div className="container mx-auto align-items-center page-container">
+      <div className="container-lg-10 main mx-auto page-container border border-danger ">
         {" "}
-        <div className="row  main-row">
+        <div className="row main-row border border-success">
           {/* Sidebar 1 */}
-          <div className="col border side border-dark ">
+          {/* Sidebar 1 */}
+          {/* <div className="col border side border-dark ">
             <div className="h3">HELLO</div>
-          </div>
+          </div> */}
 
           {/* Middle Column / Main Content */}
-          <div className="col-8 border border-primary">
+          {/* Middle Column / Main Content */}
+          <div className="col-8 mx-auto border border-primary">
             {" "}
             <div className="container pt-5 pb-5 ">
-              <header className="row pb-3">
+              <header className="row  pb-3">
                 <div className="col text-center mx-auto ">
                   <h1>Free Mortgage Calculator</h1>
                 </div>
@@ -83,7 +98,11 @@ function App() {
                   {/* For Input Section */}
                   {/* For Input Section */}
                   <div className="col-md-3 card text-center text-md-start pt-3">
-                    {" "}
+                    <div className="row text-end">
+                      <a href="#" onClick={handleClearAll}>
+                        Clear All
+                      </a>
+                    </div>{" "}
                     <label htmlFor="purchase-price">Purchase Price</label>
                     <input
                       className="form-control mb-2"
@@ -91,6 +110,7 @@ function App() {
                       id="purchase-price"
                       value={purchasePrice}
                       onChange={(e) => handlePurchaseChange(e)}
+                      required
                     />
                     <label htmlFor="down-payment">Down Payment</label>
                     <input
@@ -99,6 +119,7 @@ function App() {
                       id="down-payment"
                       value={downPayment}
                       onChange={(e) => handlDownPaymentChange(e)}
+                      required
                     />
                     <label htmlFor="interest-rate">Interest Rate</label>
                     <input
@@ -107,6 +128,7 @@ function App() {
                       id="interest-rate"
                       value={interestRate}
                       onChange={(e) => handleInterestChange(e)}
+                      required
                     />
                     <label htmlFor="payment-period">Payment Period</label>
                     <input
@@ -115,6 +137,7 @@ function App() {
                       id="payment-period"
                       value={paymentPeriod}
                       onChange={(e) => handlePeriodChange(e)}
+                      required
                     />
                     <button
                       className="btn btn-primary mb-2"
@@ -130,18 +153,20 @@ function App() {
                     <div className="row mx-auto text-center">Your Mortgage</div>
                     <div className="row mtg-data border-top text-center ">
                       <div className="col-md-4 border-bottom h5">
-                        Principal: ${data.principal}
+                        Principal: ${data.principal || 0}
                       </div>
                       <div className="col-md-4 col-sm-6 border-bottom h5">
-                        Interest: {data.interest}%{" "}
+                        Interest: {data.interestRate || 0}%
                       </div>
                       <div className="col-md-4 col-sm-6 border-bottom h5">
-                        Period: {paymentPeriod} yrs{" "}
+                        Period: {data.period || 0} yrs{" "}
                       </div>
                     </div>
                     <div className="">
                       <p className=" h6 text-center">Total monthly</p>
-                      <p className="h2 text-center">${data.monthly} </p>
+                      <p className="h2 text-center">
+                        ${data.monthly || "0.00"}{" "}
+                      </p>
                     </div>
                     <button className="btn btn-secondary" onClick={saveQuote}>
                       {" "}
@@ -151,31 +176,13 @@ function App() {
                 </div>
               </section>
 
-              {/* Ad Space */}
-              <section className="row pt-3 pb-3">
-                <div className="col-md-9 border mx-auto text-center h3 mid-banner">
-                  AD SPACE
-                </div>
-              </section>
-
               {/* Saved Data */}
-              <section className="row ">
+              <section className="row mt-3">
                 <div className="col">
-                  <SavedData saved={saved} />
-                </div>
-              </section>
-
-              <section className="row pt-3 pb-3 align-baseline">
-                <div className="col-9 border mx-auto text-center h3 mid-banner">
-                  AD SPACE
+                  <SavedData saved={saved} deleteEntry={deleteEntry} />
                 </div>
               </section>
             </div>{" "}
-          </div>
-
-          {/* Sidebar 2 */}
-          <div className="col border side border-dark ">
-            <div className="h3">WORLD</div>
           </div>
         </div>
       </div>

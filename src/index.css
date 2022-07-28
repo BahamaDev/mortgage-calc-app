@@ -22,14 +22,18 @@
     color: orange;
 }
 
-#side {
+.side {
 
-    background-color: pink;
-    height: 100vh;
+    
+    height: 100%;
 }
 
 
 .main-row{
     height: 80vh;
    
+}
+
+.main{
+  
 }
