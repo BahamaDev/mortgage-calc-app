@@ -10,6 +10,7 @@ function App() {
   const [interestRate, setInterestRate] = useState();
   const [data, setData] = useState({});
   const [saved, setSaved] = useState([]);
+  const [disabled, setDisabled] = useState(false);
 
   const handlePurchaseChange = (e) => {
     e.preventDefault();
@@ -45,25 +46,55 @@ function App() {
       period: paymentPeriod,
       monthly: finalMonthly.toFixed(2),
     };
-    setData(answer);
+    if (purchasePrice == 0) {
+      alert("Set Purchase Price");
+    } else if (interestRate == 0) {
+      alert("Set Interest Rate");
+    } else if (downPayment == 0) {
+      alert("Set Down Payment");
+    } else if (paymentPeriod == null || paymentPeriod == undefined) {
+      alert("Set payment period");
+    } else setData(answer);
   };
 
   const handleClearAll = () => {
-    setPurchasePrice(0);
-    setDownPayment(0);
-    setPaymentPeriod(0);
-    setInterestRate(0);
+    setPurchasePrice("");
+    setDownPayment("");
+    setPaymentPeriod("");
+    setInterestRate("");
   };
 
   const saveQuote = () => {
-    setSaved([...saved, data]);
+    //
+    // if (data === saved[0]) {
+    //   alert("This quote has already been saved.");
+    // } else setSaved([...saved, data]);
+
+    if (!saved.includes(data)) {
+      setSaved([...saved, data]);
+    } else {
+      alert("This quote has already been saved");
+    }
+
+  
   };
+
   console.log("saved", saved);
 
   const deleteEntry = (e) => {
     console.log(e.target.getAttribute("value"));
     saved.splice([e.target.getAttribute("value")], 1);
     console.log(saved);
+  };
+
+  const reloadEntry = (e) => {
+    const entry = saved[e.target.getAttribute("value")];
+    console.log(entry);
+
+    setPurchasePrice(entry.purchasePrice);
+    setPaymentPeriod(entry.paymentPeriod);
+    setDownPayment(entry.downPayment);
+    setInterestRate(entry.interestRate);
   };
 
   return (
@@ -168,7 +199,11 @@ function App() {
                         ${data.monthly || "0.00"}{" "}
                       </p>
                     </div>
-                    <button className="btn btn-secondary" onClick={saveQuote}>
+                    <button
+                      className="btn btn-secondary"
+                      disabled={disabled}
+                      onClick={saveQuote}
+                    >
                       {" "}
                       Save Quote
                     </button>
@@ -179,7 +214,11 @@ function App() {
               {/* Saved Data */}
               <section className="row mt-3">
                 <div className="col">
-                  <SavedData saved={saved} deleteEntry={deleteEntry} />
+                  <SavedData
+                    saved={saved}
+                    deleteEntry={deleteEntry}
+                    reloadEntry={reloadEntry}
+                  />
                 </div>
               </section>
             </div>{" "}
