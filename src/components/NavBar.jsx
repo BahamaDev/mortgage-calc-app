@@ -1,4 +1,5 @@
 import React from "react";
+import SavedData from "./SavedData";
 
 const NavBar = () => {
   return (
