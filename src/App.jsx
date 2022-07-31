@@ -2,6 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import app from "./components/Firebase";
+import { auth } from "./components/Firebase";
+
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 import SavedData from "./components/SavedData";
 import NavBar from "./components/NavBar";
 import Main from "./components/Main";
@@ -9,6 +15,7 @@ import Main from "./components/Main";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
+// Sets active user to the current logged in user.
 function App() {
   const [purchasePrice, setPurchasePrice] = useState();
   const [downPayment, setDownPayment] = useState();
@@ -23,7 +30,11 @@ function App() {
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [activeUser, setActiveUser] = useState();
 
+  // Related to Main Input, Calculation, Output and Saving
+  // Related to Main Input, Calculation, Output and Saving
+  // Related to Main Input, Calculation, Output and Saving
   const handlePurchaseChange = (e) => {
     e.preventDefault();
     setPurchasePrice(e.target.value);
@@ -89,7 +100,30 @@ function App() {
     }
   };
 
-  const regitster = async () => {};
+  // onAuthStateChanged(auth, (currentUser) => {
+  //   setActiveUser(currentUser || null);
+  // });
+
+  useEffect(() => {
+    // onAuthStateChanged();
+  }, []);
+
+  // Related to Registration and Login
+  // Related to Registration and Login
+  // Related to Registration and Login
+
+  const register = async () => {
+    try {
+      const user = await createUserWithEmailAndPassword(
+        auth,
+        registerEmail,
+        registerPassword
+      );
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const login = async () => {};
 
@@ -115,11 +149,12 @@ function App() {
 
   return (
     <>
-      <NavBar />
+      <NavBar auth={auth} />
 
       <Register
         setRegisterPassword={setRegisterPassword}
         setRegisterEmail={setRegisterEmail}
+        register={register}
       />
       <Login
         setLoginPassword={setLoginPassword}

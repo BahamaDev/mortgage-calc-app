@@ -1,6 +1,6 @@
 import React from "react";
 
-const SavedData = ({ saved, deleteEntry, reloadEntry }) => {
+const SavedData = ({ saved, deleteEntry, reloadEntry,  }) => {
   console.log(saved);
 
   return (

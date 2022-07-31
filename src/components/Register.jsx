@@ -1,9 +1,15 @@
 import React from "react";
 
-const Register = ({ setRegisterEmail, setRegisterPassword }) => {
+const Register = ({
+  setRegisterEmail,
+  setRegisterPassword,
+  register,
+
+}) => {
   return (
     <>
-    <h2>Register</h2>
+      
+      <h2>Register</h2>
       <input
         className="form-control mb-2"
         type="text"
@@ -24,6 +30,9 @@ const Register = ({ setRegisterEmail, setRegisterPassword }) => {
         }}
         required
       />
+      <button className="btn btn-primary" onClick={register}>
+        Rigister
+      </button>
     </>
   );
 };
