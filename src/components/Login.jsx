@@ -1,6 +1,6 @@
 import React from "react";
 
-const Login = ({ setLoginEmail, setLoginPassword }) => {
+const Login = ({ setLoginEmail, setLoginPassword, login }) => {
   return (
     <>
       <h2>Login</h2>
@@ -24,6 +24,9 @@ const Login = ({ setLoginEmail, setLoginPassword }) => {
         }}
         required
       />
+      <button className="btn btn-secondary" onClick={login}>
+        SignIn
+      </button>
     </>
   );
 };

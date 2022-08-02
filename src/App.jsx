@@ -7,6 +7,8 @@ import { auth } from "./components/Firebase";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import SavedData from "./components/SavedData";
 import NavBar from "./components/NavBar";
@@ -30,7 +32,8 @@ function App() {
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [activeUser, setActiveUser] = useState();
+  const [activeUser, setActiveUser] = useState({});
+  const [user, setUser] = useState({});
 
   // Related to Main Input, Calculation, Output and Saving
   // Related to Main Input, Calculation, Output and Saving
@@ -100,18 +103,16 @@ function App() {
     }
   };
 
-  // onAuthStateChanged(auth, (currentUser) => {
-  //   setActiveUser(currentUser || null);
-  // });
-
-  useEffect(() => {
-    // onAuthStateChanged();
-  }, []);
+  // useEffect(() => {
+  // }, []);
 
   // Related to Registration and Login
   // Related to Registration and Login
   // Related to Registration and Login
 
+  // This function comes from auth, and monitors and maintains the status of the current signed in user.
+
+  // Registers new users
   const register = async () => {
     try {
       const user = await createUserWithEmailAndPassword(
@@ -119,17 +120,40 @@ function App() {
         registerEmail,
         registerPassword
       );
-      console.log(user);
+      console.log("Successful Register ", user);
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const login = async () => {};
+  // Login registered users.
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      console.log("Successful Login ", user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-  const logout = async () => {};
+  // Logout signed in users.
+  const logout = async () => {
+    await signOut(auth);
+  };
 
-  console.log("saved", saved);
+  useEffect(() => {
+    // Maintains sign in status of current user.
+    onAuthStateChanged(auth, (currentUser) => {
+      console.log(currentUser);
+      setUser(currentUser);
+    });
+  }, []);
+
+  // console.log("saved", saved);
 
   const deleteEntry = (e) => {
     console.log(e.target.getAttribute("value"));
@@ -149,17 +173,27 @@ function App() {
 
   return (
     <>
-      <NavBar auth={auth} />
+      <NavBar user={user} />
 
       <Register
         setRegisterPassword={setRegisterPassword}
         setRegisterEmail={setRegisterEmail}
         register={register}
+        registerEmail={registerEmail}
+        registerPassword={registerPassword}
       />
+
       <Login
         setLoginPassword={setLoginPassword}
         setLoginEmail={setLoginEmail}
+        login={login}
       />
+      <div>
+        {" "}
+        <button className="btn btn-primary" onClick={logout}>
+          SignOut
+        </button>
+      </div>
 
       <Main
         handleClearAll={handleClearAll}

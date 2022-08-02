@@ -1,7 +1,7 @@
 import React from "react";
 
-const SavedData = ({ saved, deleteEntry, reloadEntry,  }) => {
-  console.log(saved);
+const SavedData = ({ saved, deleteEntry, reloadEntry }) => {
+  // console.log(saved);
 
   return (
     <>
@@ -36,7 +36,7 @@ const SavedData = ({ saved, deleteEntry, reloadEntry,  }) => {
                 Delete
               </th>
               <th className="text-center" scope="col">
-               Reload
+                Reload
               </th>
             </tr>
           </thead>
@@ -57,7 +57,6 @@ const SavedData = ({ saved, deleteEntry, reloadEntry,  }) => {
 
                   <td className="text-center">
                     <a
-                      href="#"
                       onClick={(e, id) => deleteEntry(e, this)}
                       value={index}
                       className="icon"
@@ -78,7 +77,6 @@ const SavedData = ({ saved, deleteEntry, reloadEntry,  }) => {
 
                   <td className="text-center">
                     <a
-                      href="#"
                       onClick={(e, id) => reloadEntry(e, this)}
                       value={index}
                       className="icon"
