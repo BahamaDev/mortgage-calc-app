@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import app from "./components/Firebase";
 import { auth } from "./components/Firebase";
+import Database from "./components/Database";
 
 import {
   createUserWithEmailAndPassword,
@@ -209,6 +210,7 @@ function App() {
         data={data}
         saveQuote={saveQuote}
       />
+      <Database />
 
       <SavedData
         saved={saved}
