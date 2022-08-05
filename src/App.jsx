@@ -2,9 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import app from "./components/Firebase";
-import { auth } from "./components/Firebase";
-import Database from "./components/Database";
-
+import { auth, db } from "./components/Firebase";
+import {
+  collection,
+  addDoc,
+  getDoc,
+  setDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -14,7 +20,6 @@ import {
 import SavedData from "./components/SavedData";
 import NavBar from "./components/NavBar";
 import Main from "./components/Main";
-
 import Login from "./components/Login";
 import Register from "./components/Register";
 
@@ -104,58 +109,6 @@ function App() {
     }
   };
 
-  // useEffect(() => {
-  // }, []);
-
-  // Related to Registration and Login
-  // Related to Registration and Login
-  // Related to Registration and Login
-
-  // This function comes from auth, and monitors and maintains the status of the current signed in user.
-
-  // Registers new users
-  const register = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      );
-      console.log("Successful Register ", user);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  // Login registered users.
-  const login = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      );
-      console.log("Successful Login ", user);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  // Logout signed in users.
-  const logout = async () => {
-    await signOut(auth);
-  };
-
-  useEffect(() => {
-    // Maintains sign in status of current user.
-    onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
-      setUser(currentUser);
-    });
-  }, []);
-
-  // console.log("saved", saved);
-
   const deleteEntry = (e) => {
     console.log(e.target.getAttribute("value"));
     saved.splice([e.target.getAttribute("value")], 1);
@@ -171,6 +124,162 @@ function App() {
     setDownPayment(entry.downPayment);
     setInterestRate(entry.interestRate);
   };
+
+  // //////////////////////////
+
+  // Related to Registration and Login
+  // Related to Registration and Login
+  // Related to Registration and Login
+
+  // Registers new users
+  const register = async () => {
+    try {
+      const newUser = await createUserWithEmailAndPassword(
+        auth,
+        registerEmail,
+        registerPassword
+      );
+      console.log("Successful Register ", newUser);
+      // console.log(newUser.user.uid);
+      setActiveUser(newUser.user);
+      // createCollectionandDoc(user);
+      console.log(user);
+      addDataWithId(newUser.user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // Login registered users.
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      console.log("Successful Login ", user);
+      readDocument(user.user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // Logout signed in users.
+  const logout = async () => {
+    await signOut(auth);
+  };
+
+  useEffect(() => {
+    // Maintains sign in status of current user.
+    onAuthStateChanged(auth, (currentUser) => {
+      // console.log(currentUser);
+
+      setUser(currentUser);
+      // console.log(currentUser.uid);
+    });
+  }, []);
+
+  // ///////////////////////
+
+  // Related to database.
+  // Related to database.
+  // Related to database.
+
+  // Create document and Collection
+  const createCollectionandDoc = async (a) => {
+    try {
+      const docRef = await addDoc(collection(db, `${a.uid}`), {
+        data: { ...saved },
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+  //   createCollectionandDoc();
+
+  //   Read document
+  // const readDocument = async () => {
+  //   try {
+  //     const querySnapshot = await getDocs(collection(db, "users"));
+  //     querySnapshot.forEach((doc) => {
+  //       console.log(`${doc.id} => ${doc.data()}`);
+  //     });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+  // readDocument()
+
+  // This will retrieve data for the selected user.
+  const readDocument = async (a) => {
+    try {
+      const userdoc = doc(db, "users", `${a.uid}`);
+      console.log(a.uid);
+      const docSnap = await getDoc(userdoc);
+
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap);
+        const retreivedData = docSnap.data();
+        console.log(retreivedData.year);
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // creates reference to the relative collection.
+  // creates reference to the relative collection.
+  const usersCollectionRef = collection(db, "users2");
+  // console.log(usersCollectionRef);
+
+  // Add a new document with a specified ID, to collection "avengers"
+  // Note: when you use setDoc to create a document you must specify an id for the document to create.
+  const addDataWithId = async (a) => {
+    try {
+      await setDoc(doc(db, "users", `${a.uid}`), {
+        saved: [...saved],
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  //   addDataWithId();
+
+  // Add a new document with with auto generated ID, to collection "avengers"
+  // Add a new document with with auto generated ID, to collection "avengers"
+
+  const addDataWithAutoId = async () => {
+    try {
+      await addDoc(collection(db, "avengers"), {
+        name: "China Trump",
+        state: "Bomba",
+        country: "Rasta",
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  //   addDataWithAutoId();
+
+  const updateData = async () => {
+    try {
+      const washingtonRef = doc(db, "cities", "DC");
+
+      // Set the "capital" field of the city 'DC'
+      await updateDoc(washingtonRef, {
+        capital: true,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  updateData();
 
   return (
     <>
@@ -210,7 +319,7 @@ function App() {
         data={data}
         saveQuote={saveQuote}
       />
-      <Database />
+      {/* <Database /> */}
 
       <SavedData
         saved={saved}
