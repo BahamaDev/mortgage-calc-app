@@ -1,6 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import app from "./components/Firebase";
 import { auth, db } from "./components/Firebase";
 import {
@@ -40,7 +46,7 @@ function App() {
   const [loginPassword, setLoginPassword] = useState("");
   const [activeUser, setActiveUser] = useState({});
   const [user, setUser] = useState({});
-
+  const navigate = useNavigate();
   // Related to Main Input, Calculation, Output and Saving
   // Related to Main Input, Calculation, Output and Saving
   // Related to Main Input, Calculation, Output and Saving
@@ -97,13 +103,11 @@ function App() {
   };
 
   const saveQuote = () => {
-    //
-    // if (data === saved[0]) {
-    //   alert("This quote has already been saved.");
-    // } else setSaved([...saved, data]);
-
     if (!saved.includes(data)) {
       setSaved([...saved, data]);
+      updateData(user);
+      console.log("SaveQuote fired");
+      console.log(saved);
     } else {
       alert("This quote has already been saved");
     }
@@ -112,6 +116,7 @@ function App() {
   const deleteEntry = (e) => {
     console.log(e.target.getAttribute("value"));
     saved.splice([e.target.getAttribute("value")], 1);
+    updateData(user);
     console.log(saved);
   };
 
@@ -160,6 +165,7 @@ function App() {
       );
       console.log("Successful Login ", user);
       readDocument(user.user);
+      navigate("/")
     } catch (error) {
       console.log(error.message);
     }
@@ -168,6 +174,7 @@ function App() {
   // Logout signed in users.
   const logout = async () => {
     await signOut(auth);
+    setSaved([]);
   };
 
   useEffect(() => {
@@ -176,7 +183,7 @@ function App() {
       // console.log(currentUser);
 
       setUser(currentUser);
-      // console.log(currentUser.uid);
+      readDocument(currentUser);
     });
   }, []);
 
@@ -217,12 +224,12 @@ function App() {
     try {
       const userdoc = doc(db, "users", `${a.uid}`);
       console.log(a.uid);
+      console.log(a.saved);
       const docSnap = await getDoc(userdoc);
 
       if (docSnap.exists()) {
-        console.log("Document data:", docSnap);
         const retreivedData = docSnap.data();
-        console.log(retreivedData.year);
+        setSaved([...retreivedData.saved]);
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -267,65 +274,94 @@ function App() {
 
   //   addDataWithAutoId();
 
-  const updateData = async () => {
-    try {
-      const washingtonRef = doc(db, "cities", "DC");
+  // const updateData = async () => {
+  //   try {
+  //     const washingtonRef = doc(db, "cities", "DC");
 
-      // Set the "capital" field of the city 'DC'
-      await updateDoc(washingtonRef, {
-        capital: true,
+  //     // Set the "capital" field of the city 'DC'
+  //     await updateDoc(washingtonRef, {
+  //       capital: true,
+  //     });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+  // updateData();
+
+  const updateData = async (a) => {
+    try {
+      const userdoc = doc(db, "users", `${a.uid}`);
+      // console.log(a.uid);
+      // console.log(a.saved);
+      await updateDoc(userdoc, {
+        saved: [...saved],
       });
     } catch (error) {
       console.log(error.message);
     }
   };
-  updateData();
 
   return (
     <>
-      <NavBar user={user} />
+      <NavBar user={user} logout={logout} />
 
-      <Register
-        setRegisterPassword={setRegisterPassword}
-        setRegisterEmail={setRegisterEmail}
-        register={register}
-        registerEmail={registerEmail}
-        registerPassword={registerPassword}
-      />
+      <Routes>
+        <Route
+          path="/register"
+          element={
+            <Register
+              setRegisterPassword={setRegisterPassword}
+              setRegisterEmail={setRegisterEmail}
+              register={register}
+              registerEmail={registerEmail}
+              registerPassword={registerPassword}
+            />
+          }
+        />
 
-      <Login
-        setLoginPassword={setLoginPassword}
-        setLoginEmail={setLoginEmail}
-        login={login}
-      />
-      <div>
-        {" "}
-        <button className="btn btn-primary" onClick={logout}>
-          SignOut
-        </button>
-      </div>
+        <Route
+          path="/login"
+          element={
+            <Login
+              setLoginPassword={setLoginPassword}
+              setLoginEmail={setLoginEmail}
+              login={login}
+            />
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <Main
+              handleClearAll={handleClearAll}
+              purchasePrice={purchasePrice}
+              handlePurchaseChange={handlePurchaseChange}
+              handleDownPaymentChange={handleDownPaymentChange}
+              handleInterestChange={handleInterestChange}
+              handlePeriodChange={handlePeriodChange}
+              getMortgage={getMortgage}
+              saved={saved}
+              downPayment={downPayment}
+              paymentPeriod={paymentPeriod}
+              data={data}
+              saveQuote={saveQuote}
+            />
+          }
+        />
 
-      <Main
-        handleClearAll={handleClearAll}
-        purchasePrice={purchasePrice}
-        handlePurchaseChange={handlePurchaseChange}
-        handleDownPaymentChange={handleDownPaymentChange}
-        handleInterestChange={handleInterestChange}
-        handlePeriodChange={handlePeriodChange}
-        getMortgage={getMortgage}
-        saved={saved}
-        downPayment={downPayment}
-        paymentPeriod={paymentPeriod}
-        data={data}
-        saveQuote={saveQuote}
-      />
+        <Route
+          path="/saved"
+          element={
+            <SavedData
+              saved={saved}
+              deleteEntry={deleteEntry}
+              reloadEntry={reloadEntry}
+            />
+          }
+        />
+      </Routes>
+
       {/* <Database /> */}
-
-      <SavedData
-        saved={saved}
-        deleteEntry={deleteEntry}
-        reloadEntry={reloadEntry}
-      />
     </>
   );
 }

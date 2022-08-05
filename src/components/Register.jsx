@@ -35,6 +35,14 @@ const Register = ({
       <button className="btn btn-primary" onClick={register}>
         Rigister
       </button>
+
+
+
+
+
+
+
+      
     </>
   );
 };
