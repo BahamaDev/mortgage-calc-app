@@ -24,16 +24,34 @@
 
 .side {
 
-    
+
     height: 100%;
 }
 
 
-.main-row{
+.main-row {
     height: 80vh;
-   
+
 }
 
-.main{
-  
+
+.modal-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: rgba(128, 128, 128, 0.206);
+    height: 100vh;
+    z-index: 1000;
+
+
+}
+
+.modal-container {
+    background-color: #fff;
+}
+
+.modal-row {
+
+    height: 40vh;
+    align-self: center;
+
 }

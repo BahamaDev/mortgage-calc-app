@@ -1,4 +1,5 @@
 import React from "react";
+import Register from "./Register";
 import SavedData from "./SavedData";
 const Main = ({
   handleClearAll,
@@ -16,6 +17,7 @@ const Main = ({
 }) => {
   return (
     <>
+      {/* <Register /> */}
       <div className="container-lg-10 main mx-auto page-container border border-danger ">
         {" "}
         <div className="row main-row border border-success">
@@ -123,9 +125,6 @@ const Main = ({
               </section>
 
               {/* Saved Data */}
-             
-                 
-              
             </div>{" "}
           </div>
         </div>

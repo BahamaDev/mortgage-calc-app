@@ -28,6 +28,7 @@ import NavBar from "./components/NavBar";
 import Main from "./components/Main";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 // Sets active user to the current logged in user.
 function App() {
@@ -46,6 +47,8 @@ function App() {
   const [loginPassword, setLoginPassword] = useState("");
   const [activeUser, setActiveUser] = useState({});
   const [user, setUser] = useState({});
+  const [errorMessage, setErrorMessage] = useState();
+
   const navigate = useNavigate();
   // Related to Main Input, Calculation, Output and Saving
   // Related to Main Input, Calculation, Output and Saving
@@ -150,8 +153,10 @@ function App() {
       // createCollectionandDoc(user);
       console.log(user);
       addDataWithId(newUser.user);
+      navigate("/");
     } catch (error) {
       console.log(error.message);
+      setErrorMessage(error.message);
     }
   };
 
@@ -165,9 +170,10 @@ function App() {
       );
       console.log("Successful Login ", user);
       readDocument(user.user);
-      navigate("/")
+      navigate("/");
     } catch (error) {
       console.log(error.message);
+      setErrorMessage(error.message);
     }
   };
 
@@ -181,7 +187,7 @@ function App() {
     // Maintains sign in status of current user.
     onAuthStateChanged(auth, (currentUser) => {
       // console.log(currentUser);
-
+      console.log(auth);
       setUser(currentUser);
       readDocument(currentUser);
     });
@@ -305,30 +311,42 @@ function App() {
     <>
       <NavBar user={user} logout={logout} />
 
-      <Routes>
-        <Route
-          path="/register"
-          element={
-            <Register
-              setRegisterPassword={setRegisterPassword}
-              setRegisterEmail={setRegisterEmail}
-              register={register}
-              registerEmail={registerEmail}
-              registerPassword={registerPassword}
-            />
-          }
-        />
+      {/* <Register
+        setRegisterPassword={setRegisterPassword}
+        setRegisterEmail={setRegisterEmail}
+        register={register}
+        registerEmail={registerEmail}
+        registerPassword={registerPassword}
+      /> */}
 
-        <Route
-          path="/login"
-          element={
-            <Login
-              setLoginPassword={setLoginPassword}
-              setLoginEmail={setLoginEmail}
-              login={login}
-            />
-          }
-        />
+      <Routes>
+        <Route element={<ProtectedRoutes auth={auth} user={user} />}>
+          <Route
+            path="/register"
+            element={
+              <Register
+                setRegisterPassword={setRegisterPassword}
+                setRegisterEmail={setRegisterEmail}
+                register={register}
+                registerEmail={registerEmail}
+                registerPassword={registerPassword}
+                errorMessage={errorMessage}
+              />
+            }
+          />
+
+          <Route
+            path="/login"
+            element={
+              <Login
+                setLoginPassword={setLoginPassword}
+                setLoginEmail={setLoginEmail}
+                login={login}
+              />
+            }
+          />
+        </Route>
+
         <Route
           path="/"
           element={
