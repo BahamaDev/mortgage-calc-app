@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import SavedData from "./SavedData";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import Main from "./Main";
 
 const NavBar = ({
   activeUser,
@@ -13,6 +15,7 @@ const NavBar = ({
   setShowLogIn,
 }) => {
   const navigate = useNavigate();
+
   return (
     <>
       <div>

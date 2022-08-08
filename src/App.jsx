@@ -353,7 +353,6 @@ function App() {
                 setLoginEmail={setLoginEmail}
                 login={login}
                 setShowLogIn={setShowLogIn}
-                
               />
             }
           />
@@ -375,6 +374,9 @@ function App() {
               paymentPeriod={paymentPeriod}
               data={data}
               saveQuote={saveQuote}
+              setShowLogIn={setShowLogIn}
+              setShowSignUp={setShowSignUp}
+              user={user}
             />
           }
         />

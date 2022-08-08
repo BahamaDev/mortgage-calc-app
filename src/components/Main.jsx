@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import Register from "./Register";
 import SavedData from "./SavedData";
 const Main = ({
@@ -14,7 +15,15 @@ const Main = ({
   paymentPeriod,
   data,
   saveQuote,
+  setShowSignUp,
+  setShowLogIn,
+  user,
 }) => {
+  useEffect(() => {
+    !user && setShowSignUp(true);
+    !user && setShowLogIn(true);
+  });
+
   return (
     <>
       {/* <Register /> */}
