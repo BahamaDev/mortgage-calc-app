@@ -352,7 +352,6 @@ function App() {
                 setLoginPassword={setLoginPassword}
                 setLoginEmail={setLoginEmail}
                 login={login}
-                setShowLogIn={setShowLogIn}
               />
             }
           />
@@ -380,18 +379,15 @@ function App() {
             />
           }
         />
-
-        <Route
-          path="/saved"
-          element={
-            <SavedData
-              saved={saved}
-              deleteEntry={deleteEntry}
-              reloadEntry={reloadEntry}
-            />
-          }
-        />
       </Routes>
+      {/* Only shows if there is a logged in user. */}
+      {user && (
+        <SavedData
+          saved={saved}
+          deleteEntry={deleteEntry}
+          reloadEntry={reloadEntry}
+        />
+      )}
 
       {/* <Database /> */}
     </>

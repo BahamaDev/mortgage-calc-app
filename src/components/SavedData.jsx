@@ -1,7 +1,7 @@
 import React from "react";
 
 const SavedData = ({ saved, deleteEntry, reloadEntry }) => {
-  // console.log(saved);
+  console.log(saved);
 
   return (
     <>
@@ -41,7 +41,7 @@ const SavedData = ({ saved, deleteEntry, reloadEntry }) => {
             </tr>
           </thead>
           <tbody text-center>
-            {saved.map((item, index) => {
+            {saved && saved.map((item, index) => {
               return (
                 <tr key={index}>
                   <td className="text-center">{index}</td>
