@@ -48,6 +48,8 @@ function App() {
   const [activeUser, setActiveUser] = useState({});
   const [user, setUser] = useState({});
   const [errorMessage, setErrorMessage] = useState();
+  const [showSignUp, setShowSignUp] = useState(true);
+  const [showLogIn, setShowLogIn] = useState(true);
 
   const navigate = useNavigate();
   // Related to Main Input, Calculation, Output and Saving
@@ -187,7 +189,7 @@ function App() {
     // Maintains sign in status of current user.
     onAuthStateChanged(auth, (currentUser) => {
       // console.log(currentUser);
-      console.log(auth);
+      // console.log(auth);
       setUser(currentUser);
       readDocument(currentUser);
     });
@@ -309,7 +311,14 @@ function App() {
 
   return (
     <>
-      <NavBar user={user} logout={logout} />
+      <NavBar
+        user={user}
+        logout={logout}
+        showSignUp={showSignUp}
+        setShowSignUp={setShowSignUp}
+        setShowLogIn={setShowLogIn}
+        showLogIn={showLogIn}
+      />
 
       {/* <Register
         setRegisterPassword={setRegisterPassword}
@@ -331,6 +340,7 @@ function App() {
                 registerEmail={registerEmail}
                 registerPassword={registerPassword}
                 errorMessage={errorMessage}
+                setShowSignUp={setShowSignUp}
               />
             }
           />
@@ -342,6 +352,8 @@ function App() {
                 setLoginPassword={setLoginPassword}
                 setLoginEmail={setLoginEmail}
                 login={login}
+                setShowLogIn={setShowLogIn}
+                
               />
             }
           />

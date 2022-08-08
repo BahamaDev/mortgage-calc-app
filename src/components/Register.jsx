@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 
 const Register = ({
   registerEmail,
@@ -7,7 +8,11 @@ const Register = ({
   setRegisterPassword,
   register,
   errorMessage,
+  setShowSignUp,
 }) => {
+  useEffect(() => {
+    setShowSignUp(false);
+  });
   return (
     <>
       <div className="modal-wrapper container-fluid">

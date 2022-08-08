@@ -1,6 +1,11 @@
 import React from "react";
+import { useEffect } from "react";
 
-const Login = ({ setLoginEmail, setLoginPassword, login }) => {
+const Login = ({ setLoginEmail, setLoginPassword, login, setShowLogIn }) => {
+  useEffect(() => {
+    setShowLogIn(false);
+  });
+
   return (
     <>
       <h2>Login</h2>

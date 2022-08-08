@@ -3,7 +3,15 @@ import { useState } from "react";
 import SavedData from "./SavedData";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const NavBar = ({ activeUser, user, logout }) => {
+const NavBar = ({
+  activeUser,
+  user,
+  logout,
+  setShowSignUp,
+  showSignUp,
+  showLogIn,
+  setShowLogIn,
+}) => {
   const navigate = useNavigate();
   return (
     <>
@@ -15,21 +23,25 @@ const NavBar = ({ activeUser, user, logout }) => {
             <img src="/" width="30" height="30" alt="" />
           </a>
           <div>
-            {!user && (
+            {/* If there is not a logged in user. This navigate to sign up page and removes the button.  */}
+            {!user && showSignUp == true && (
               <button
                 className="btn btn-success m-2"
                 onClick={() => {
                   navigate("/register");
+                  setShowSignUp(false);
                 }}
               >
                 Sign Up
               </button>
             )}
-            {!user && (
+
+            {!user && showLogIn == true && (
               <button
                 className="btn btn-secondary m-2"
                 onClick={() => {
                   navigate("/login");
+                  setShowLogIn(false);
                 }}
               >
                 Log In
