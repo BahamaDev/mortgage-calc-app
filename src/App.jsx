@@ -50,6 +50,7 @@ function App() {
   const [errorMessage, setErrorMessage] = useState();
   const [showSignUp, setShowSignUp] = useState(true);
   const [showLogIn, setShowLogIn] = useState(true);
+  const [isActive, setIsActive] = useState();
 
   const navigate = useNavigate();
   // Related to Main Input, Calculation, Output and Saving
@@ -97,7 +98,10 @@ function App() {
       alert("Set Down Payment");
     } else if (paymentPeriod == null || paymentPeriod == undefined) {
       alert("Set payment period");
-    } else setData(answer);
+    } else {
+      setData(answer);
+      checkCurrentInputs();
+    }
   };
 
   const handleClearAll = () => {
@@ -116,6 +120,10 @@ function App() {
     } else {
       alert("This quote has already been saved");
     }
+  };
+
+  const checkCurrentInputs = () => {
+    // saved.includes(data) ? setIsActive("disabled") : setIsActive("");
   };
 
   const deleteEntry = (e) => {
@@ -192,6 +200,7 @@ function App() {
       // console.log(auth);
       setUser(currentUser);
       readDocument(currentUser);
+      checkCurrentInputs();
     });
   }, []);
 
@@ -351,7 +360,11 @@ function App() {
               <Login
                 setLoginPassword={setLoginPassword}
                 setLoginEmail={setLoginEmail}
+                loginEmail={loginEmail}
+                loginPassword={loginPassword}
                 login={login}
+                setShowLogIn={setShowLogIn}
+                errorMessage={errorMessage}
               />
             }
           />
@@ -376,20 +389,24 @@ function App() {
               setShowLogIn={setShowLogIn}
               setShowSignUp={setShowSignUp}
               user={user}
+              isActive={isActive}
+              setIsActive={setIsActive}
             />
           }
         />
       </Routes>
-      {/* Only shows if there is a logged in user. */}
-      {user && (
-        <SavedData
-          saved={saved}
-          deleteEntry={deleteEntry}
-          reloadEntry={reloadEntry}
-        />
-      )}
 
-      {/* <Database /> */}
+      <div>
+        {" "}
+        {user && (
+          <SavedData
+            saved={saved}
+            deleteEntry={deleteEntry}
+            reloadEntry={reloadEntry}
+          />
+        )}
+      </div>
+      {/* Only shows if there is a logged in user. */}
     </>
   );
 }

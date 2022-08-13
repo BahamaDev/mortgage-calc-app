@@ -16,7 +16,7 @@ const Register = ({
   return (
     <>
       <div className="modal-wrapper container-fluid">
-        <div className="container modal-container col-4 border pt-5 ">
+        <div className="container modal-container col-md-4 col-sm-6 col-10 border-lg shadow pt-5 ">
           <div className="row modal-row align-items-center">
             <div className="col mx-auto a">
               <h2>Sign Up Here</h2>

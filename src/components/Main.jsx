@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import Register from "./Register";
 import SavedData from "./SavedData";
@@ -17,7 +18,9 @@ const Main = ({
   saveQuote,
   setShowSignUp,
   setShowLogIn,
+  setIsActive,
   user,
+  isActive,
 }) => {
   useEffect(() => {
     !user && setShowSignUp(true);
@@ -27,23 +30,17 @@ const Main = ({
   return (
     <>
       {/* <Register /> */}
-      <div className="container-lg-10 main mx-auto page-container border border-danger ">
+      <div className="container-md-10  main mx-auto page-container border border-danger ">
         {" "}
         <div className="row main-row border border-success">
-          {/* Sidebar 1 */}
-          {/* Sidebar 1 */}
-          {/* <div className="col border side border-dark ">
-            <div className="h3">HELLO</div>
-          </div> */}
-
           {/* Middle Column / Main Content */}
           {/* Middle Column / Main Content */}
-          <div className="col-8 mx-auto border border-primary">
+          <div className="col-md-8  mx-auto border border-primary">
             {" "}
             <div className="container pt-5 pb-5 ">
-              <header className="row  pb-3">
+              <header className="row  pb-3 pb-sm-1">
                 <div className="col text-center mx-auto ">
-                  <h1>Free Mortgage Calculator</h1>
+                  <p className="h1">Free Mortgage Calculator</p>
                 </div>
               </header>
 
@@ -54,9 +51,13 @@ const Main = ({
                   {" "}
                   {/* For Input Section */}
                   {/* For Input Section */}
-                  <div className="col-md-3 card text-center text-md-start pt-3">
-                    <div className="row text-end">
-                      <a href="#" onClick={handleClearAll}>
+                  <div className="col-md-3 col-8 card text-center text-md-start pt-3">
+                    <div className="row text-end text-sm">
+                      <a
+                        className="text-muted"
+                        href="#"
+                        onClick={handleClearAll}
+                      >
                         Clear All
                       </a>
                     </div>{" "}
@@ -106,9 +107,9 @@ const Main = ({
                   </div>
                   {/* For Output Section */}
                   {/* For Output Section */}
-                  <div className="col-6 justify-content-center card">
+                  <div className="col-md-6 col-8 justify-content-center card">
                     <div className="row mx-auto text-center">Your Mortgage</div>
-                    <div className="row mtg-data border-top text-center ">
+                    <div className="row mtg-data border-top text-center">
                       <div className="col-md-4 border-bottom h5">
                         Principal: ${data.principal || 0}
                       </div>
@@ -125,7 +126,10 @@ const Main = ({
                         ${data.monthly || "0.00"}{" "}
                       </p>
                     </div>
-                    <button className="btn btn-secondary" onClick={saveQuote}>
+                    <button
+                      className={`btn btn-secondary ${isActive}`}
+                      onClick={saveQuote}
+                    >
                       {" "}
                       Save Quote
                     </button>

@@ -1,4 +1,7 @@
-.table {}
+body {
+
+    overflow-y: scroll;
+}
 
 .icon {
     color: lightgray
@@ -30,7 +33,7 @@
 
 
 .main-row {
-    height: 80vh;
+    height: auto;
 
 }
 

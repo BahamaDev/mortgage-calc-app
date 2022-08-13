@@ -20,11 +20,10 @@ const NavBar = ({
     <>
       <div>
         <nav className="navbar navbar-dark bg-dark">
-          <h2 className="text-white">{user?.email}</h2>
-          <h2 className="text-white"></h2>
-          <a className="navbar-brand" href="">
-            <img src="/" width="30" height="30" alt="" />
-          </a>
+          <h4 className="text-white m-2">{user?.email}</h4>
+          {/* <a className="navbar-brand" href="">
+              <img src="/" width="30" height="30" alt="" />
+            </a> */}
           <div>
             {/* If there is not a logged in user. This navigate to sign up page and removes the button.  */}
             {!user && showSignUp == true && (
