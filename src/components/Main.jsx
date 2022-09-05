@@ -27,12 +27,14 @@ const Main = ({
     !user && setShowLogIn(true);
   });
 
+  console.log("data to main", data);
+
   return (
     <>
       {/* <Register /> */}
-      <div className="container-md-10  main mx-auto page-container border border-danger ">
+      <div className="container-md-10 main mx-auto page-container border border-danger ">
         {" "}
-        <div className="row main-row border border-success">
+        <div className="row main-row border border-light">
           {/* Middle Column / Main Content */}
           {/* Middle Column / Main Content */}
           <div className="col-md-8  mx-auto border border-primary">
@@ -40,7 +42,7 @@ const Main = ({
             <div className="container pt-5 pb-5 ">
               <header className="row  pb-3 pb-sm-1">
                 <div className="col text-center mx-auto ">
-                  <p className="h1">Free Mortgage Calculator</p>
+                  <p className="h1 ">Free Mortgage Calculator</p>
                 </div>
               </header>
 
@@ -51,7 +53,7 @@ const Main = ({
                   {" "}
                   {/* For Input Section */}
                   {/* For Input Section */}
-                  <div className="col-md-3 col-8 card text-center text-md-start pt-3">
+                  <div className="col-md-4 col-8 card text-center text-md-start pt-3">
                     <div className="row text-end text-sm">
                       <a
                         className="text-muted"
@@ -61,7 +63,9 @@ const Main = ({
                         Clear All
                       </a>
                     </div>{" "}
-                    <label htmlFor="purchase-price">Purchase Price</label>
+                    <label htmlFor="purchase-price" className="section-header">
+                      Purchase Price
+                    </label>
                     <input
                       className="form-control mb-2"
                       type="number"
@@ -70,7 +74,9 @@ const Main = ({
                       onChange={(e) => handlePurchaseChange(e)}
                       required
                     />
-                    <label htmlFor="down-payment">Down Payment</label>
+                    <label htmlFor="down-payment" className="section-header">
+                      Down Payment
+                    </label>
                     <input
                       type="text"
                       className="form-control mb-2 "
@@ -79,7 +85,9 @@ const Main = ({
                       onChange={(e) => handleDownPaymentChange(e)}
                       required
                     />
-                    <label htmlFor="interest-rate">Interest Rate</label>
+                    <label htmlFor="interest-rate" className="section-header">
+                      Interest Rate
+                    </label>
                     <input
                       type="text"
                       className="form-control mb-2"
@@ -88,7 +96,9 @@ const Main = ({
                       onChange={(e) => handleInterestChange(e)}
                       required
                     />
-                    <label htmlFor="payment-period">Payment Period</label>
+                    <label htmlFor="payment-period" className="section-header">
+                      Payment Period
+                    </label>
                     <input
                       type="text"
                       className="form-control mb-2"
@@ -98,7 +108,7 @@ const Main = ({
                       required
                     />
                     <button
-                      className="btn btn-primary mb-2"
+                      className="btn btn-warning mb-2"
                       type="submit"
                       onClick={getMortgage}
                     >
@@ -110,18 +120,35 @@ const Main = ({
                   <div className="col-md-6 col-8 justify-content-center card">
                     <div className="row mx-auto text-center">Your Mortgage</div>
                     <div className="row mtg-data border-top text-center">
-                      <div className="col-md-4 border-bottom h5">
-                        Principal: ${data.principal || 0}
+                      <div className="col-md-4 border-bottom">
+                        <div className="section-header text-nowrap">
+                          Principal
+                        </div>
+                        <div className="section-info text-truncate">
+                          ${data.principal || 0}
+                        </div>
                       </div>
-                      <div className="col-md-4 col-sm-6 border-bottom h5">
-                        Interest: {data.interestRate || 0}%
+
+                      <div className="col-md-4 col-sm-6 border-bottom">
+                        <div className="section-header text-nowrap">
+                          Interest
+                        </div>
+                        <div className="section-info">
+                          {data.interestRate || 0}%
+                        </div>
                       </div>
-                      <div className="col-md-4 col-sm-6 border-bottom h5">
-                        Period: {data.period || 0} yrs{" "}
+
+                      <div className="col-md-4 col-sm-6 border-bottom">
+                        <div className="section-header text-nowrap">Period</div>
+                        <div className="section-info">
+                          {data.period || 0} yrs{" "}
+                        </div>
                       </div>
                     </div>
                     <div className="">
-                      <p className=" h6 text-center">Total monthly</p>
+                      <p className="text-center section-header">
+                        Total monthly
+                      </p>
                       <p className="h2 text-center">
                         ${data.monthly || "0.00"}{" "}
                       </p>

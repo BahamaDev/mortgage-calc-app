@@ -80,15 +80,19 @@ function App() {
     const monthlyPayments =
       Math.round(p * (r * Math.pow(r + 1, n))) / (Math.pow(r + 1, n) - 1);
     // console.log(p, r, n, monthlyPayments);
-    const finalMonthly = monthlyPayments / 12 || 0;
+    const finalMonthly = (monthlyPayments / 12 || 0).toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
     // console.log(finalMonthly.toFixed(2));
     const answer = {
       purchasePrice,
       downPayment,
       interestRate,
-      principal: p,
+      principal: p.toLocaleString("en-US"),
       period: paymentPeriod,
-      monthly: finalMonthly.toFixed(2),
+      monthly: finalMonthly,
     };
     if (purchasePrice == 0) {
       alert("Set Purchase Price");
@@ -318,6 +322,16 @@ function App() {
     }
   };
 
+  const changeNumber = () => {
+    const number = (data && data.principal) || 0;
+    console.log(typeof number);
+    const convert = number.toLocaleString("en-US");
+    console.log(convert);
+    console.log("changeNumberfired");
+  };
+
+  changeNumber();
+
   return (
     <>
       <NavBar
@@ -328,84 +342,78 @@ function App() {
         setShowLogIn={setShowLogIn}
         showLogIn={showLogIn}
       />
-
-      {/* <Register
-        setRegisterPassword={setRegisterPassword}
-        setRegisterEmail={setRegisterEmail}
-        register={register}
-        registerEmail={registerEmail}
-        registerPassword={registerPassword}
-      /> */}
-
-      <Routes>
-        <Route element={<ProtectedRoutes auth={auth} user={user} />}>
-          <Route
-            path="/register"
-            element={
-              <Register
-                setRegisterPassword={setRegisterPassword}
-                setRegisterEmail={setRegisterEmail}
-                register={register}
-                registerEmail={registerEmail}
-                registerPassword={registerPassword}
-                errorMessage={errorMessage}
-                setShowSignUp={setShowSignUp}
-              />
-            }
-          />
-
-          <Route
-            path="/login"
-            element={
-              <Login
-                setLoginPassword={setLoginPassword}
-                setLoginEmail={setLoginEmail}
-                loginEmail={loginEmail}
-                loginPassword={loginPassword}
-                login={login}
-                setShowLogIn={setShowLogIn}
-                errorMessage={errorMessage}
-              />
-            }
-          />
-        </Route>
-
-        <Route
-          path="/"
-          element={
-            <Main
-              handleClearAll={handleClearAll}
-              purchasePrice={purchasePrice}
-              handlePurchaseChange={handlePurchaseChange}
-              handleDownPaymentChange={handleDownPaymentChange}
-              handleInterestChange={handleInterestChange}
-              handlePeriodChange={handlePeriodChange}
-              getMortgage={getMortgage}
-              saved={saved}
-              downPayment={downPayment}
-              paymentPeriod={paymentPeriod}
-              data={data}
-              saveQuote={saveQuote}
-              setShowLogIn={setShowLogIn}
-              setShowSignUp={setShowSignUp}
-              user={user}
-              isActive={isActive}
-              setIsActive={setIsActive}
-            />
-          }
-        />
-      </Routes>
-
-      <div>
+      <div className="container-fluid main-wrapper p-2">
         {" "}
-        {user && (
-          <SavedData
-            saved={saved}
-            deleteEntry={deleteEntry}
-            reloadEntry={reloadEntry}
+        <Routes>
+          <Route element={<ProtectedRoutes auth={auth} user={user} />}>
+            <Route
+              path="/register"
+              element={
+                <Register
+                  setRegisterPassword={setRegisterPassword}
+                  setRegisterEmail={setRegisterEmail}
+                  register={register}
+                  registerEmail={registerEmail}
+                  registerPassword={registerPassword}
+                  errorMessage={errorMessage}
+                  setShowSignUp={setShowSignUp}
+                />
+              }
+            />
+
+            <Route
+              path="/login"
+              element={
+                <Login
+                  setLoginPassword={setLoginPassword}
+                  setLoginEmail={setLoginEmail}
+                  loginEmail={loginEmail}
+                  loginPassword={loginPassword}
+                  login={login}
+                  setShowLogIn={setShowLogIn}
+                  errorMessage={errorMessage}
+                />
+              }
+            />
+          </Route>
+
+          <Route
+            path="/"
+            element={
+              <Main
+                handleClearAll={handleClearAll}
+                purchasePrice={purchasePrice}
+                handlePurchaseChange={handlePurchaseChange}
+                handleDownPaymentChange={handleDownPaymentChange}
+                handleInterestChange={handleInterestChange}
+                handlePeriodChange={handlePeriodChange}
+                getMortgage={getMortgage}
+                saved={saved}
+                downPayment={downPayment}
+                paymentPeriod={paymentPeriod}
+                data={data}
+                saveQuote={saveQuote}
+                setShowLogIn={setShowLogIn}
+                setShowSignUp={setShowSignUp}
+                user={user}
+                isActive={isActive}
+                setIsActive={setIsActive}
+              />
+            }
           />
-        )}
+        </Routes>
+        <div>
+          {" "}
+          {user && (
+            <SavedData
+              saved={saved}
+              deleteEntry={deleteEntry}
+              reloadEntry={reloadEntry}
+            />
+          )}
+        </div>
       </div>
+
       {/* Only shows if there is a logged in user. */}
     </>
   );

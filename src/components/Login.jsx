@@ -43,7 +43,7 @@ const Login = ({
                 }}
                 required
               />
-              <button className="btn btn-primary" onClick={login}>
+              <button className="btn btn-outline-secondary " onClick={login}>
                 Login
               </button>
             </div>

@@ -19,7 +19,7 @@ const NavBar = ({
   return (
     <>
       <div>
-        <nav className="navbar navbar-dark bg-dark">
+        <nav className="navbar navbar-dark bg-dark that-navbar">
           <h4 className="text-white m-2">{user?.email}</h4>
           {/* <a className="navbar-brand" href="">
               <img src="/" width="30" height="30" alt="" />

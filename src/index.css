@@ -1,7 +1,31 @@
+:root {
+
+    --gold-grad: linear-gradient(to right, rgb(105, 219, 171) 0%, #13ac6d 100%)
+}
+
+
 body {
 
     overflow-y: scroll;
+
 }
+
+
+
+
+
+.main-wrapper {
+    height: 100vh;
+    background-image: var(--gold-grad);
+    background-color: #bbbbbb
+}
+
+input {
+    height: 30px
+}
+
+
+.that-navbar {}
 
 .icon {
     color: lightgray
@@ -57,4 +81,18 @@ body {
     height: 40vh;
     align-self: center;
 
+}
+
+
+.section-header {
+font-weight: 200;
+
+}
+
+
+
+
+.section-info {
+    font-size: clamp(1rem, 1.5vw, 2.5rem);
+    font-weight: 600;
 }
