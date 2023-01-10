@@ -16,8 +16,8 @@ body {
 
 .main-wrapper {
     height: 100vh;
-    background-image: var(--gold-grad);
-    background-color: #bbbbbb
+    /* background-image: var(--gold-grad); */
+    background-color: rgb(6, 183, 3)
 }
 
 input {
@@ -85,7 +85,7 @@ input {
 
 
 .section-header {
-font-weight: 200;
+    font-weight: 200;
 
 }
 
@@ -95,4 +95,13 @@ font-weight: 200;
 .section-info {
     font-size: clamp(1rem, 1.5vw, 2.5rem);
     font-weight: 600;
+}
+
+.header-title {
+   font-size: 3em;
+   font-weight: 600;
+    color: white;
+    line-height: 1.1;
+    /* border: 1px black solid; */
+    
 }

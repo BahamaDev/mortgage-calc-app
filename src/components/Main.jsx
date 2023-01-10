@@ -32,17 +32,17 @@ const Main = ({
   return (
     <>
       {/* <Register /> */}
-      <div className="container-md-10 main mx-auto page-container border border-danger ">
+      <div className="container-md-10 main mx-auto page-container  ">
         {" "}
-        <div className="row main-row border border-light">
+        <div className="row main-row ">
           {/* Middle Column / Main Content */}
           {/* Middle Column / Main Content */}
-          <div className="col-md-8  mx-auto border border-primary">
+          <div className="col-md-8  mx-auto ">
             {" "}
             <div className="container pt-5 pb-5 ">
               <header className="row  pb-3 pb-sm-1">
                 <div className="col text-center mx-auto ">
-                  <p className="h1 ">Free Mortgage Calculator</p>
+                  <p className=" header-title">Free Mortgage Calculator</p>
                 </div>
               </header>
 
@@ -108,7 +108,7 @@ const Main = ({
                       required
                     />
                     <button
-                      className="btn btn-warning mb-2"
+                      className="btn btn-dark mb-2"
                       type="submit"
                       onClick={getMortgage}
                     >

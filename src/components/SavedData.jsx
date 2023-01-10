@@ -6,7 +6,7 @@ const SavedData = ({ saved, deleteEntry, reloadEntry }) => {
   return (
     <>
       <div className="row  col-sm-8 col-12   mt-4 mx-auto">
-        <div className="col align-items-center border mx-auto table-responsive  ">
+        <div className="col align-items-center  mx-auto table-responsive  ">
           <table className="table table-sm table-striped table-hover table-bordered border mx-auto">
             <thead className="table-dark">
               <tr>
